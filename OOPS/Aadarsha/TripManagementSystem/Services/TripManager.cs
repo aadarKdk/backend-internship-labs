@@ -16,7 +16,7 @@ namespace TripManagementSystem.Services
         // List to store trips users, packages and a dictionary for user->bookings
         private List<TripPackage> _trips = new List<TripPackage>();
         private List<User> _users = new List<User>();
-        private Dictionary<int, List<Booking>> _userBookings = new Dictionary<int, List<Booking>>();
+        private Dictionary<int, List<Booking>> _userBookings = new Dictionary<int, List<Booking>>(); // a single user can have multiple bookings
 
         // Array - static destinations available
         private readonly string[] _destinations = { "Pokhara", "Mustang", "Kathmandu", "Chitwan", "Bhaktapur" };
@@ -26,7 +26,6 @@ namespace TripManagementSystem.Services
         {
             var user = new User(name, email);
             _users.Add(user);
-
             // create an empty booking
             _userBookings[user.UserId] = new List<Booking>();
             return user;
@@ -40,13 +39,7 @@ namespace TripManagementSystem.Services
             _trips.Add(new CulturalTrip(2, "Heritage Tour of Kathmandu", "Kathmandu", 3, 150m, guidedIncluded: true));
             _trips.Add(new AdventureTrip(3, "Upper Mustang Expedition", "Mustang", 8, 1000m, adventureLevel: 5));
             _trips.Add(new CulturalTrip(4, "Chitwan Jungle Safari", "Chitwan", 2, 300m, guidedIncluded: false));
-
-            // Create sample user
-            var sampleUser = new User("Aadarsha", "aad@example.com");
-            _users.Add(sampleUser);
-            _userBookings[sampleUser.UserId] = new List<Booking>();
         }
-
         public void DisplayAvailableTrips()
         {
             Console.WriteLine("Available Trips: ");
@@ -55,7 +48,6 @@ namespace TripManagementSystem.Services
                 Console.WriteLine(trip);
             }
         }
-
         // IBookable implementation
         public Booking BookTrip(int userId, int tripId)
         {
@@ -63,24 +55,19 @@ namespace TripManagementSystem.Services
             var user = _users.FirstOrDefault(u => u.UserId == userId);
             if (user == null)
                 throw new ArgumentException($"User with ID {userId} not found.");
-
             // Find trip
             var trip = _trips.FirstOrDefault(t => t.TripId == tripId);
             if (trip == null)
                 throw new InvalidTripException(tripId, $"Trip with ID {tripId} not found.");
-
             // Calculate pricing using polymorphoic method
             var price = trip.CalculatePrice();
-
             // Create booking and add to dictionary
             var booking = new Booking(userId, tripId, price);
             if (!_userBookings.ContainsKey(userId))
                 _userBookings[userId] = new List<Booking>();
-
             _userBookings[userId].Add(booking);
             return booking;
         }
-
         public void CancelBooking(int userId, int bookingId)
         {
             if (!_userBookings.ContainsKey(userId))
@@ -93,7 +80,6 @@ namespace TripManagementSystem.Services
             // Remove booking
             list.Remove(target);
         }
-
         // Display bookings for a user
         public void DisplayUserBookings(int userId)
         {
@@ -102,7 +88,6 @@ namespace TripManagementSystem.Services
                 Console.WriteLine($"No bookings found for user ID {userId}.");
                 return;
             }
-
             Console.WriteLine($"\nBookings for User ID {userId}:");
             foreach (var booking in _userBookings[userId])
             {

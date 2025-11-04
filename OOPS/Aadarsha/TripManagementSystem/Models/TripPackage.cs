@@ -31,8 +31,5 @@ namespace TripManagementSystem.Models
         {
             return $"[{TripId}] {Name} - {Destination} ({DurationDays} days): {BasePrice:C}";
         }
-        
-
-
     }
 }

@@ -41,7 +41,7 @@ namespace TripManagementSystem
             {
                 Console.Clear();
                 ConsoleHelper.WriteDivider();
-                ConsoleHelper.WriteCentered("🌍 Trip Management System 🌍", ConsoleColor.Cyan);
+                ConsoleHelper.WriteCentered(" Trip Management System ", ConsoleColor.Cyan);
                 ConsoleHelper.WriteDivider();
 
                 Console.WriteLine();

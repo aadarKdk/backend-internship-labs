@@ -5,7 +5,6 @@ namespace TripManagementSystem.Models
     public class Booking
     {
         private static int _bookingIdSeq = 1;
-
         public int BookingId { get; }
         public int UserId { get; set; }
         public int TripId { get; set; }
@@ -21,7 +20,6 @@ namespace TripManagementSystem.Models
             Price = price;
             BookingDate = DateTime.UtcNow;
         }
-
         public override string ToString()
         {
             return $"Booking[{BookingId}] User:{UserId} Trip:{TripId} Price:{Price:C} Date(UTC):{BookingDate:yyyy-MM-dd HH:mm}";

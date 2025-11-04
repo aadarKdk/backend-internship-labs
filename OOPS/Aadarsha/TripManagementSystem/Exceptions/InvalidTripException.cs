@@ -8,7 +8,6 @@ namespace TripManagementSystem.Exceptions
     public class InvalidTripException : Exception
     {
         public int TripId { get; }
-
         // Constructor to initialize the exception with a message and trip ID
         public InvalidTripException(int tripId, string message) : base(message)
         {
